@@ -37,9 +37,6 @@ function Navbar(props) {
                             <a className="nav-link" href="#/home">Home</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#/lista-veiculos">Lista Veículos</a>
-                        </li>
-                        <li className="nav-item">
                             <a onClick={logout} className="nav-link" href="#/login">Logout</a>
                         </li>
 

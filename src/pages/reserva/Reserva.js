@@ -4,6 +4,7 @@ import currencyFormatter from 'currency-formatter'
 import Card from '../../components/Card'
 import FormGroup from '../../components/FormGroup'
 import CardVeiculo from '../../components/CardIVeiculo'
+import ReservaService from '../../service/ReservaService'
 import VeiculoService from '../../service/VeiculoService'
 
 import AuthService from '../../service/AuthService'
@@ -26,17 +27,17 @@ function Reserva(props) {
                 setVeiculo(response.data)
             })
             .catch(error => {
-                messages.mensagemErro('Veículo não localizado, tente novamente mais tarde!');
+                messages.mensagemErro(error.response.data);
             })
-    }, [])
+    }, [props.match.params])
 
-    function reservar() {
+    function solicitar() {
         const usuario = AuthService.buscaUsuarioDaSessao()
 
         const reserva = { idVeiculo: veiculo.id, idUsuario: usuario.id, dataInicio, dataFim }
 
-        const service = new VeiculoService()
-        service.reservar(reserva)
+        const service = new ReservaService()
+        service.solicitar(reserva)
             .then(response => {
                 messages.mensagemSucesso('Veículo reservado com sucesso!');
             })
@@ -59,7 +60,7 @@ function Reserva(props) {
 
         const timeDiff = Math.abs(dFim.getTime() - dInicio.getTime());
 
-        const diffDays = timeDiff == 0 ? 1 : Math.ceil(timeDiff / (1000 * 3600 * 24));
+        const diffDays = timeDiff === 0 ? 1 : Math.ceil(timeDiff / (1000 * 3600 * 24));
 
         const valorTotalCalculado = currencyFormatter.format(diffDays * veiculo.valorDia, { locale: 'pt-BR' })
 
@@ -102,7 +103,7 @@ function Reserva(props) {
                                     </FormGroup>
                                     <br />
                                     <button onClick={calculaValorTotal} type="button" className="btn btn-info">Calcular</button>
-                                    <button onClick={reservar} type="button" className="btn btn-primary">Confirmar Reserva</button>
+                                    <button onClick={solicitar} type="button" className="btn btn-primary">Confirmar Reserva</button>
                                 </div>
                             </div>
                         </div>

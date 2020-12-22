@@ -1,36 +1,84 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import currencyFormatter from 'currency-formatter'
+
 import AuthService from '../service/AuthService'
+import ReservaService from '../service/ReservaService'
+import ListaReservas from "./reserva/ListaReservas";
+
+import * as messages from '../components/Toastr'
 
 function Home(props) {
 
+    const history = useHistory();
     const [usuario, setUsuario] = useState({});
+    const [reservas, setReservas] = useState([]);
 
     useEffect(() => {
-
         const usuario = AuthService.buscaUsuarioDaSessao()
-        if (usuario) {
-            setUsuario(usuario);
-        } 
 
-    }, [])
+        if (usuario) {
+
+            const service = new ReservaService()
+            service.minhasReservas(usuario.id)
+                .then(response => {
+                    setReservas(response.data)
+                })
+                .catch(error => {
+                    messages.mensagemAlerta("Não foi possível obter a lista de reservas, tente novamente mais tarde!");
+                })
+
+            setUsuario(usuario);
+
+        } else {
+            history.push('/login');
+        }
+
+    }, [reservas])
+
+    function onAtualizaSituacao(reserva, situacao) {
+        const service = new ReservaService()
+        reserva.situacao = situacao;
+        service.atualizaSituacao(reserva)
+            .then(response => {
+                const posicao = reservas.indexOf(reserva)
+                reservas[posicao] = response.data;
+                setReservas(reservas);
+                messages.mensagemSucesso(`Reserva ${situacao} com sucesso!`);
+            })
+            .catch(error => {
+                messages.mensagemErro(error.response.data);
+            })
+    }
+
+    function retornaCustoMesReservas() {
+        let custoTotal = 0
+
+        reservas.forEach(function (item) {
+            if (item.situacao !== 'CANCELADA') {
+                custoTotal += item.valorTotal
+            }
+        })
+        return currencyFormatter.format(custoTotal, { locale: 'pt-BR' });
+    }
+
 
     return (
-        <div className="jumbotron">
-            <h1 className="display-3">Bem vindo {usuario.nome}!</h1>
-            <p className="lead">Esse é seu sistema de finanças.</p>
-            <p className="lead">Seu saldo para o mês atual é de R$ 5.325,21</p>
+
+        <div className="jumbotron" style={{ paddingTop: 10 }}>
+            <h1 className="display-4" >Bem vindo {usuario.nome}!</h1>
+            <p className="lead">Esse é sua área de reservas.</p>
+            <p className="lead">Seu custo total com reservas este mês é de: {retornaCustoMesReservas()} </p>
             <hr className="my-4" />
-            <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
+            <p>Você possui {reservas.filter(r => r.situacao !== "CONCLUIDA" && r.situacao !== "CANCELADA").length} reserva(s) pendente(s).</p>
+
+            <ListaReservas lista={reservas} actionAtualizaSituacao={onAtualizaSituacao} />
+
             <p className="lead">
                 <a className="btn btn-primary btn-lg"
-                    href="https://bootswatch.com/flatly/#"
+                    href="#/lista-veiculos"
                     role="button">
-                    <i className="fa fa-users"></i>Cadastrar Usuário
-                    </a>
-                <a className="btn btn-danger btn-lg"
-                    href="https://bootswatch.com/flatly/#"
-                    role="button">
-                    <i className="fa fa-users"></i>Cadastrar Lançamento
+                    <i className="fa fa-users"></i>Nova Reserva
                     </a>
             </p>
         </div>

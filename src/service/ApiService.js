@@ -21,11 +21,12 @@ class ApiService {
         const requestUrl = `${this.apiUrl}/${url}`
         console.log('REQ_GET ' + requestUrl )        
         return httpClient.get(requestUrl);
-
     }
 
-    put(url) {
-
+    put(url, objeto) {
+        const requestUrl = `${this.apiUrl}/${url}`
+        console.log('REQ_PUT ' + requestUrl )        
+        return httpClient.put(requestUrl, objeto);
     }
 
     delete(url) {

@@ -59,7 +59,19 @@ function ListaVeiculosReserva(props) {
 
     return (
         <div className="jumbotron" style={{ paddingTop: 5 }}>
-            <ul className="pagination pagination">
+
+
+            <CardVeiculo item={item} isFirstItem={isFirstItem()} isLastItem={isLastItem()} actionItem={actionItem} />
+
+        </div>
+    )
+}
+
+
+export default ListaVeiculosReserva;
+
+/*
+<ul className="pagination pagination">
                 {isFirstItem()
                     ?
                     <li className="page-item disabled">
@@ -82,12 +94,4 @@ function ListaVeiculosReserva(props) {
                     </li>
                 }
             </ul>
-
-            <CardVeiculo item={item} />
-
-        </div>
-    )
-}
-
-
-export default ListaVeiculosReserva;
+*/
