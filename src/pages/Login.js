@@ -28,6 +28,10 @@ function Login(props) {
         })
     }
     
+    function cadastrar(){
+        history.push('/cadastro-usuario');
+    }
+
     return (
         <div className="row">
             <div className="col-md-6" style={{ position: 'relative', left: '300px' }}>
@@ -54,6 +58,7 @@ function Login(props) {
                                     </FormGroup>
                                     <br />
                                     <button onClick={logar} type="button" className="btn btn-primary">Acessar</button>
+                                    <button onClick={cadastrar} type="button" className="btn btn-danger">Cadastrar-se</button>
                                 </div>
                             </div>
                         </div>

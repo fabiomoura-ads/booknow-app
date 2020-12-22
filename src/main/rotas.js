@@ -20,6 +20,7 @@ function Rotas() {
             <Switch>
                 <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
+                <Route path="/cadastro-usuario" component={CadastroUsuario} />                
                 <Route path="/lista-veiculos" component={ListaVeiculosReserva} />
                 <Route path="/reserva/:id" component={Reserva} />
             </Switch>
