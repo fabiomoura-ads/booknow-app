@@ -3,7 +3,7 @@ import ApiService from './ApiService';
 class VeiculoService extends ApiService {
 
     constructor() {
-        super('veiculos');
+        super('api/veiculos');
     }
 
     cadastrar(veiculo) {

@@ -3,7 +3,7 @@ import ApiService from './ApiService';
 class ReservaService extends ApiService {
 
     constructor() {
-        super('reserva');
+        super('api/reserva');
     }
 
     solicitar(reserva) {

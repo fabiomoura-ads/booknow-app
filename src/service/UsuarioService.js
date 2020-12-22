@@ -3,7 +3,7 @@ import ApiService from './ApiService';
 class UsuarioService extends ApiService {
 
     constructor() {
-        super('usuarios');
+        super('api/usuarios');
     }
 
     autenticar(usuario) {
