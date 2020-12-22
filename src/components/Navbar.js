@@ -1,5 +1,17 @@
 import AuthService from '../service/AuthService'
 
+/**
+<li className="nav-item">
+                            <a className="nav-link" href="#/cadastro-usuario">Usuários</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#/cadastro-veiculo">Cadastrar Veículo</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#/consultar-veiculos">Consultar Veículos</a>
+                        </li>
+                        
+ */
 function Navbar(props) {
 
     function logout() {
@@ -9,7 +21,7 @@ function Navbar(props) {
     return (
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary" >
             <div className="container">
-                <a href="#" className="navbar-brand">Book Now</a>
+                <a href="#/home" className="navbar-brand">Book Now</a>
                 <button className="navbar-toggler"
                     type="button"
                     data-toggle="collapse"
@@ -25,17 +37,12 @@ function Navbar(props) {
                             <a className="nav-link" href="#/home">Home</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#/cadastro-usuario">Usuários</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#/cadastro-veiculo">Cadastrar Veículo</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#/consultar-veiculos">Consultar Veículos</a>
+                            <a className="nav-link" href="#/lista-veiculos">Lista Veículos</a>
                         </li>
                         <li className="nav-item">
                             <a onClick={logout} className="nav-link" href="#/login">Logout</a>
                         </li>
+
                     </ul>
 
                 </div>

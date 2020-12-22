@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { withRouter } from 'react-router-dom'
 import AuthService from '../service/AuthService'
 
 function Home(props) {
@@ -11,9 +10,7 @@ function Home(props) {
         const usuario = AuthService.buscaUsuarioDaSessao()
         if (usuario) {
             setUsuario(usuario);
-        } else {
-            props.history.push('/login');
-        }
+        } 
 
     }, [])
 
@@ -40,4 +37,4 @@ function Home(props) {
     )
 }
 
-export default withRouter(Home);
+export default Home;

@@ -22,6 +22,10 @@ class VeiculoService extends ApiService {
         return this.get('')
     }
 
+    obterPorId(id){
+        return this.get(`/${id}`)
+    }
+    
     deletar(id){
         return this.delete(`/${id}`)
     }
