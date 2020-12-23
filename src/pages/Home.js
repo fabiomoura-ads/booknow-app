@@ -34,7 +34,7 @@ function Home(props) {
             history.push('/login');
         }
 
-    }, [reservas])
+    }, [])
 
     function onAtualizaSituacao(reserva, situacao) {
         const service = new ReservaService()
@@ -62,6 +62,9 @@ function Home(props) {
         return currencyFormatter.format(custoTotal, { locale: 'pt-BR' });
     }
 
+    function irParaHistoricoReservas() {
+        history.push('/historico-reserva')
+    }
 
     return (
 
@@ -72,7 +75,9 @@ function Home(props) {
             <hr className="my-4" />
             <p>Você possui {reservas.filter(r => r.situacao !== "CONCLUIDA" && r.situacao !== "CANCELADA").length} reserva(s) pendente(s).</p>
 
-            <ListaReservas lista={reservas} actionAtualizaSituacao={onAtualizaSituacao} />
+            <ListaReservas lista={reservas}
+                actionAtualizaSituacao={onAtualizaSituacao}
+                sitaucaoDesconsiderar={['CANCELADA', 'CONCLUIDA']} />
 
             <p className="lead">
                 <a className="btn btn-primary btn-lg"
@@ -80,6 +85,10 @@ function Home(props) {
                     role="button">
                     <i className="fa fa-users"></i>Nova Reserva
                     </a>
+
+                <button className="btn btn-primary btn-lg"
+                    onClick={irParaHistoricoReservas} >Histórico
+                    </button>
             </p>
         </div>
     )
