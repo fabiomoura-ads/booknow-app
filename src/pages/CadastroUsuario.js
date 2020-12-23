@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import Card from '../components/Card'
 import FormGroup from '../components/FormGroup'
 
@@ -8,6 +10,8 @@ import * as messages from '../components/Toastr'
 
 function CadastroUsuario() {
 
+    const history = useHistory();
+    
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -18,6 +22,7 @@ function CadastroUsuario() {
         service.cadastrar({nome, email, senha})
         .then(response => {
             messages.mensagemSucesso('Usuário cadastrado com sucesso!');
+            history.push('/login')
         })
         .catch(error => {
             messages.mensagemErro(error.response.data);

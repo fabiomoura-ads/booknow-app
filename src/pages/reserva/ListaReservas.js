@@ -3,78 +3,49 @@ import currencyFormatter from 'currency-formatter'
 import Moment from 'moment';
 Moment.locale('pt');
 
-export function ActionTableReserva(props) {
-    return (
-        <button {...props}
-            type="button"
-            onClick={() => props.actionAtualiza(props.reserva, props.situacao)}>
-            {props.title}
-        </button>
-    )
-}
-
 export function Acoes(props) {
 
     const situacao = props.reserva.situacao
 
+    let label = ''
+    let acaoAtualiza = ''
+
     if (situacao === 'PENDENTE') {
-        return (
-            <div>
-                <button type="button"
-                    title="Confirmar"
-                    className="btn btn-success"
-                    onClick={() => props.actionAtualiza(props.reserva, "CONFIRMADA")}>
-                    Confirmar
-                </button>
-                <button type="button"
-                    title="Cancelar"
-                    className="btn btn-danger"
-                    onClick={() => props.actionAtualiza(props.reserva, "CANCELADA")}>
-                    Cancelar
-                </button>
-            </div>
-        )
+        label = 'Confirmar'
+        acaoAtualiza = 'CONFIRMADA'
+
     } else if (situacao === 'CONFIRMADA') {
-        return (
-            <div>
-                <ActionTableReserva
-                    title={'Efetivar'}
-                    className={'btn btn-success'}
-                    situacao={"EFETIVADA"}
-                    {...props}
-                />
-                <ActionTableReserva
-                    title={'Cancelar'}
-                    className={'btn btn-danger'}
-                    situacao={"CANCELADA"}
-                    {...props}
-                />
-            </div>
-        )
+        label = 'Efetivar'
+        acaoAtualiza = 'EFETIVADA'
+
     } else if (situacao === 'EFETIVADA') {
-        return (
-            <div>
-                <ActionTableReserva
-                    title={'Concluir'}
-                    className={'btn btn-success'}
-                    situacao={"CONCLUIDA"}
-                    {...props}
-                />
-                <ActionTableReserva
-                    title={'Cancelar'}
-                    className={'btn btn-danger'}
-                    situacao={"CANCELADA"}
-                    {...props}
-                />
-            </div>
-        )
+        label = 'Concluir'
+        acaoAtualiza = 'CONCLUIDA'
     }
 
-    return false
+    return (
+        <div>
+            <button type="button"
+                title={label}
+                className="btn btn-success"
+                onClick={() => props.actionAtualiza(props.reserva, acaoAtualiza)}>
+                {label}
+            </button>
+            <button type="button"
+                title="Cancelar"
+                className="btn btn-danger"
+                onClick={() => props.actionAtualiza(props.reserva, "CANCELADA")}>
+                Cancelar
+            </button>
+        </div>
+    )
+
 }
 const ListaReservas = props => {
 
-    const reservas = props.lista.filter(item => (item.situacao !== "CONCLUIDA" && item.situacao !== "CANCELADA"));
+    const sitaucaoDesconsiderar = props.sitaucaoDesconsiderar || [''];
+
+    const reservas = props.lista.filter(item => (sitaucaoDesconsiderar.indexOf(item.situacao) === -1));
 
     const linhas = reservas.map((reserva, index) => {
         return (
@@ -85,16 +56,17 @@ const ListaReservas = props => {
                 <td>{currencyFormatter.format(reserva.valorDia, { locale: 'pt-BR' })}</td>
                 <td>{currencyFormatter.format(reserva.valorTotal, { locale: 'pt-BR' })}</td>
                 <td>{reserva.situacao}</td>
-                <td>
-                    <Acoes reserva={reserva} actionAtualiza={props.actionAtualizaSituacao} />
-                </td>
+                { props.exibeAcoes
+                    ?
+                    <td><Acoes reserva={reserva} actionAtualiza={props.actionAtualizaSituacao} /></td>
+                    :
+                    false
+                }
             </tr>
         )
-
     })
 
     return (
-
         <table className="table table-hover">
             <thead>
                 <tr>
@@ -104,7 +76,12 @@ const ListaReservas = props => {
                     <th scope="col">Valor x Dia</th>
                     <th scope="col">Valor Total</th>
                     <th scope="col">Situação</th>
-                    <th scope="col">Ações</th>
+                    {props.exibeAcoes
+                        ?
+                        <th scope="col">Ações</th>
+                        :
+                        false
+                    }
                 </tr>
             </thead>
             <tbody>

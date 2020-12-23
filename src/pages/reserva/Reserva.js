@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import currencyFormatter from 'currency-formatter'
 
 import Card from '../../components/Card'
@@ -12,6 +14,8 @@ import AuthService from '../../service/AuthService'
 import * as messages from '../../components/Toastr'
 
 function Reserva(props) {
+
+    const history = useHistory();
 
     const [veiculo, setVeiculo] = useState({})
     const [dataInicio, setDataInicio] = useState('')
@@ -40,6 +44,7 @@ function Reserva(props) {
         service.solicitar(reserva)
             .then(response => {
                 messages.mensagemSucesso('Veículo reservado com sucesso!');
+                history.push('/home')
             })
             .catch(error => {
                 messages.mensagemErro(error.response.data);

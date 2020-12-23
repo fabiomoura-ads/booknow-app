@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const httpClient = axios.create({
     baseURL: 'https://booknow-api.herokuapp.com/'
+    //baseURL: 'http://localhost:8080/'
 })
 
 
@@ -13,25 +14,21 @@ class ApiService {
 
     post(url, objeto) {
         const requestUrl = `${this.apiUrl}/${url}`
-        console.log('REQ_POST ' + requestUrl )
         return httpClient.post(requestUrl, objeto);
     }
 
     get(url) {
-        const requestUrl = `${this.apiUrl}/${url}`
-        console.log('REQ_GET ' + requestUrl )        
+        const requestUrl = `${this.apiUrl}/${url}`   
         return httpClient.get(requestUrl);
     }
 
     put(url, objeto) {
-        const requestUrl = `${this.apiUrl}/${url}`
-        console.log('REQ_PUT ' + requestUrl )        
+        const requestUrl = `${this.apiUrl}/${url}`   
         return httpClient.put(requestUrl, objeto);
     }
 
     delete(url) {
         const requestUrl = `${this.apiUrl}/${url}`
-        console.log('REQ_DELET ' + requestUrl )
         return httpClient.delete(requestUrl);
     }
 }

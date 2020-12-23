@@ -15,14 +15,12 @@ function ListaVeiculosReserva(props) {
         const service = new VeiculoService()
         service.listar()
             .then(response => {
-                console.log(response.data)
                 if (response.data && response.data instanceof Array) {
                     setLista(response.data)
                     setItem(response.data[0])
                 }
             })
             .catch(error => {
-                console.log(error.response.data)
                 messages.mensagemErro(error.response.data)
             })
 
@@ -60,8 +58,10 @@ function ListaVeiculosReserva(props) {
     return (
         <div className="jumbotron" style={{ paddingTop: 5 }}>
 
-
-            <CardVeiculo item={item} isFirstItem={isFirstItem()} isLastItem={isLastItem()} actionItem={actionItem} />
+            <CardVeiculo item={item} 
+                    isFirstItem={isFirstItem()}
+                    isLastItem={isLastItem()} 
+                    actionItem={actionItem} />
 
         </div>
     )
@@ -69,29 +69,3 @@ function ListaVeiculosReserva(props) {
 
 
 export default ListaVeiculosReserva;
-
-/*
-<ul className="pagination pagination">
-                {isFirstItem()
-                    ?
-                    <li className="page-item disabled">
-                        <button className="page-link" onClick={() => actionItem(item, 'P')}> &laquo; </button>
-                    </li>
-                    :
-                    <li className="page-item">
-                        <button className="page-link" onClick={() => actionItem(item, 'P')}> &laquo; </button>
-                    </li>
-                }
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                {isLastItem()
-                    ?
-                    <li className="page-item disabled">
-                        <button className="page-link" onClick={() => actionItem(item, 'N')}>  &raquo; </button>
-                    </li>
-                    :
-                    <li className="page-item">
-                        <button className="page-link" onClick={() => actionItem(item, 'N')}>  &raquo;</button>
-                    </li>
-                }
-            </ul>
-*/

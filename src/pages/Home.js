@@ -42,8 +42,9 @@ function Home(props) {
         service.atualizaSituacao(reserva)
             .then(response => {
                 const posicao = reservas.indexOf(reserva)
-                reservas[posicao] = response.data;
-                setReservas(reservas);
+                const cloneReservas = [...reservas]
+                cloneReservas[posicao] = response.data;
+                setReservas(cloneReservas);
                 messages.mensagemSucesso(`Reserva ${situacao} com sucesso!`);
             })
             .catch(error => {
@@ -63,7 +64,7 @@ function Home(props) {
     }
 
     function irParaHistoricoReservas() {
-        history.push('/historico-reserva')
+        history.push('/historico-reservas')
     }
 
     return (
@@ -76,6 +77,7 @@ function Home(props) {
             <p>Você possui {reservas.filter(r => r.situacao !== "CONCLUIDA" && r.situacao !== "CANCELADA").length} reserva(s) pendente(s).</p>
 
             <ListaReservas lista={reservas}
+                exibeAcoes={true}
                 actionAtualizaSituacao={onAtualizaSituacao}
                 sitaucaoDesconsiderar={['CANCELADA', 'CONCLUIDA']} />
 
