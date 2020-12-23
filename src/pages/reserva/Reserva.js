@@ -40,6 +40,11 @@ function Reserva(props) {
 
         const reserva = { idVeiculo: veiculo.id, idUsuario: usuario.id, dataInicio, dataFim }
 
+        if ( !dataInicio || !dataFim ) {
+            messages.mensagemErro('Informe o período da reserva.')
+            return false;
+        }
+
         const service = new ReservaService()
         service.solicitar(reserva)
             .then(response => {
@@ -54,6 +59,7 @@ function Reserva(props) {
     function calculaValorTotal() {
 
         if (!dataInicio || !dataFim) {
+            messages.mensagemErro('Informe o período da reserva.')
             return false
         }
 

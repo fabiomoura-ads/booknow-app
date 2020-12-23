@@ -12,12 +12,12 @@ class ReservaService extends ApiService {
 
     minhasReservas(idUsuario) {
         return this.get(`minhas-reservas?usuario=${idUsuario}`);
-    }    
-
-    atualizaSituacao(reserva){
-        return this.put(`${reserva.id}/atualizar-situacao`, {situacao: reserva.situacao})
     }
-    
+
+    atualizaSituacao(reserva) {
+        return this.put(`${reserva.id}/atualizar-situacao`, { situacao: reserva.situacao })
+    }
+
 }
 
 export default ReservaService;

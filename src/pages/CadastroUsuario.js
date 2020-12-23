@@ -11,22 +11,36 @@ import * as messages from '../components/Toastr'
 function CadastroUsuario() {
 
     const history = useHistory();
-    
+
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [confirmacaoDeSenha, setConfirmacaoDeSenha] = useState('');
 
-    function cadastrar(){
+    function cadastrar() {
+
+        const usuario = { nome, email, senha, confirmacaoDeSenha }
         const service = new UsuarioService()
-        service.cadastrar({nome, email, senha})
-        .then(response => {
-            messages.mensagemSucesso('Usuário cadastrado com sucesso!');
-            history.push('/login')
-        })
-        .catch(error => {
-            messages.mensagemErro(error.response.data);
-        })
+
+        try {
+            service.validar(usuario)
+        } catch (erros) {
+
+            erros.message.toString().split(',').forEach(erro => {
+                messages.mensagemErro(erro)
+            })
+
+            return false
+        }
+
+        service.cadastrar({ nome, email, senha })
+            .then(response => {
+                messages.mensagemSucesso('Usuário cadastrado com sucesso!');
+                history.push('/login')
+            })
+            .catch(error => {
+                messages.mensagemErro(error.response.data);
+            })
     }
 
     return (
