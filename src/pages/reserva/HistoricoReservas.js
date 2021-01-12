@@ -46,7 +46,7 @@ function HistoricoReservas() {
             history.push('/login');
         }
 
-    }, [])
+    }, [history])
 
     function pesquisar() {
 

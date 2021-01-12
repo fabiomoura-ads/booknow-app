@@ -16,6 +16,11 @@ function Login(props) {
 
     function logar() {
 
+        if ( !email || !senha ) {
+            messages.mensagemErro('Informe email e senha para continuar.')
+            return
+        }
+
         const service = new UsuarioService();
         service.autenticar({email, senha})
         .then(response => {

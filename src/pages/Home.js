@@ -34,7 +34,7 @@ function Home(props) {
             history.push('/login');
         }
 
-    }, [])
+    }, [history])
 
     function onAtualizaSituacao(reserva, situacao) {
         const service = new ReservaService()
